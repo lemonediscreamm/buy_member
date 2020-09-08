@@ -1,0 +1,56 @@
+mysql -u root
+create database buy_member_db default character set utf8;
+
+grant all privileges on buy_member_db.*to buy_member_user@'localhost' identified by'buy_member_pass' with grant option;
+
+use buy_member_db;
+
+create table buy_member (
+	mem_id int unsigned not null auto_increment,
+	family_name varchar (20) not null,
+	first_name varchar (20) not null,
+	family_name_kana varchar (20) not null,
+	first_name_kana varchar (20) not null,
+	sex tinyint(1) unsigned not null,
+	year varchar(4) not null,
+	month varchar(2) not null,
+	day varchar(2) not null,
+	zip1 varchar(3) not null,
+	zip2 varchar(4) not null,
+	address varchar(100) not null,
+	email varchar(255) not null,
+	tel1 varchar(6) not null,
+	tel2 varchar(6) not null,
+	tel3 varchar(6) not null,
+	regist_date datetime not null,
+	update_date datetime,
+	delete_date datetime,
+	delete_flg tinyint(1) unsigned not null default 0,
+	primary key( mem_id )
+);
+http://www.post.japanpost.jp/zipcode/dl/kogaki.html
+の全国一括をダウンロード　utf8に変更
+
+	
+create table postcode (
+	jis varchar(5),
+	old_zip varchar(5),
+        	zip varchar(7),
+	pref_kana varchar (100),
+	city_kana varchar (100),
+	town_kana varchar (100),
+	pref varchar (100),
+	city varchar (100),
+	town varchar (100),
+	comment1 tinyint(1) unsigned,
+	comment2 tinyint(1) unsigned,
+	comment3 tinyint(1) unsigned,
+	comment4 tinyint(1) unsigned,
+	comment5 tinyint(1) unsigned,
+	comment6 tinyint(1) unsigned
+);
+LOAD DATA INFILE 'c:/Users/lemon/downloads/pleiades-2018-09-php-win-64bit-jre_20181004/pleiades/xampp/htdocs/DT/buy_member/KEN_ALL.CSV' INTO TABLE `postcode` FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
+
+ALTER TABLE buy_member ADD password VARCHAR(100) NOT NULL;
+ALTER TABLE buy_member ADD password1 VARCHAR(100) NOT NULL;
+ALTER TABLE buy_member ADD address1 varchar(100) not null;
